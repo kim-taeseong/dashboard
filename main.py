@@ -1,4 +1,3 @@
-import pandas as pd
 import streamlit as st
 
 from api_data import get_api_data

@@ -33,6 +33,4 @@ def get_api_data():
 
         pageNo += 1
 
-    # print(result)
-
     return result

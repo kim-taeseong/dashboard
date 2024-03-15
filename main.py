@@ -7,7 +7,7 @@ from data_frame import make_data_frame
 
 result = get_api_data()
 df_rh02 = make_data_frame(result)
-print(df_rh02)
+
 row1 = st.columns(3)
 row2 = st.columns(3)
 row3 = st.columns(3)

@@ -4,7 +4,6 @@ from data_frame import make_data_frame
 from metric import station
 
 import streamlit as st
-import pandas as pd
 
 # station code와 그에 따른 이름 세팅
 station_code = st.session_state['station']

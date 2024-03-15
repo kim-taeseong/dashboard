@@ -1,7 +1,7 @@
 import requests, json, os
 
 from dotenv import load_dotenv
-
+from datetime import date
 load_dotenv()
 
 def get_api_data():
@@ -13,11 +13,13 @@ def get_api_data():
 
     result = []
 
+    today = date.today().strftime('%Y%m%d')
+
     while True:
         params = {
             'ServiceKey': api_key,
             'resultType': 'JSON',
-            'date': '20240314',
+            'date': today,
             'numOfRows': 1000,
             'pageNo': pageNo,
             # 'timecode': 'RH24'

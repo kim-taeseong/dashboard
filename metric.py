@@ -1,4 +1,16 @@
-station = {1: '수도권', 2: '백령도', 3: '호남권'}
+station = {
+    1: '수도권',
+    2: '백령도',
+    3: '호남권',
+    4: '중부권',
+    5: '제주도',
+    6: '영남권',
+    7: '경기권',
+    8: '충췅권',
+    9: '전북권',
+    10: '강원권',
+    11: '충북권'
+}
 
 def make_metric(data, container, station_code):
     '''
@@ -9,7 +21,8 @@ def make_metric(data, container, station_code):
     container(DeltaGenerator): streamli의 container
     station_code(int): 대기환경연구소 코드
     '''
-
+    if station_code not in station.keys() or station_code == 4:
+        return
     # container header
     container.header(station[station_code])
 

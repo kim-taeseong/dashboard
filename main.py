@@ -18,7 +18,6 @@ row4 = st.columns(3)
 for i, col in enumerate(row1 + row2 + row3 + row4):
     container = col.container(border=True)
     make_metric(df_rh02, container, i+1)
-    container.page_link('pages/station1.py', label='상세페이지', use_container_width=True)
 # if 'station' not in st.session_state:
 #     st.session_state['station'] = None
 

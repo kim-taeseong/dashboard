@@ -39,3 +39,5 @@ def make_metric(data, container, station_code):
     before_ca = df_rh02_ca[df_rh02_ca['STATIONCODE'] == station_code].iloc[-2]['VALUE']
     delta = round(after_ca -before_ca , 4)
     container.metric('칼슘 측정수치', after_ca, f'{delta} ng/m\u00B3')
+
+    container.page_link('pages/station1.py', label='상세페이지', use_container_width=True)

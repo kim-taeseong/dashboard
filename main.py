@@ -22,3 +22,5 @@ container1.metric('납 측정수치', df_rh02_pb[df_rh02_pb['STATIONCODE'] == 1]
 df_rh02_ca = df_rh02[df_rh02['ITEMCODE'] == '90319']
 delta = round(df_rh02_ca[df_rh02_ca['STATIONCODE'] == 1].iloc[-1]['VALUE'] - df_rh02_ca[df_rh02_ca['STATIONCODE'] == 1].iloc[-2]['VALUE'], 4)
 container1.metric('칼슘 측정수치', df_rh02_ca[df_rh02_ca['STATIONCODE'] == 1].iloc[-1]['VALUE'], f'{delta} ng/m\u00B3')
+
+container1.page_link('pages/station1.py', label='상세페이지', use_container_width=True)

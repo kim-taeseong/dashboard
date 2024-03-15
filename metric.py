@@ -21,23 +21,24 @@ def make_metric(data, container, station_code):
     container(DeltaGenerator): streamli의 container
     station_code(int): 대기환경연구소 코드
     '''
-    if station_code not in station.keys() or station_code == 4:
+    if station_code not in station.keys():
         return
     # container header
     container.header(station[station_code])
+    try:
+        # 납 성분 metric
+        df_rh02_pb = data[data['ITEMCODE'] == '90303']
+        after_pb = df_rh02_pb[df_rh02_pb['STATIONCODE'] == station_code].iloc[-1]['VALUE']
+        before_pb = df_rh02_pb[df_rh02_pb['STATIONCODE'] == station_code].iloc[-2]['VALUE']
+        delta = round(after_pb - before_pb, 4)
+        container.metric('납 측정수치', after_pb, f'{delta} ng/m\u00B3')
 
-    # 납 성분 metric
-    df_rh02_pb = data[data['ITEMCODE'] == '90303']
-    after_pb = df_rh02_pb[df_rh02_pb['STATIONCODE'] == station_code].iloc[-1]['VALUE']
-    before_pb = df_rh02_pb[df_rh02_pb['STATIONCODE'] == station_code].iloc[-2]['VALUE']
-    delta = round(after_pb - before_pb, 4)
-    container.metric('납 측정수치', after_pb, f'{delta} ng/m\u00B3')
-
-    # 칼슘 성분 metric
-    df_rh02_ca = data[data['ITEMCODE'] == '90319']
-    after_ca = df_rh02_ca[df_rh02_ca['STATIONCODE'] == station_code].iloc[-1]['VALUE']
-    before_ca = df_rh02_ca[df_rh02_ca['STATIONCODE'] == station_code].iloc[-2]['VALUE']
-    delta = round(after_ca -before_ca , 4)
-    container.metric('칼슘 측정수치', after_ca, f'{delta} ng/m\u00B3')
-
-    container.page_link('pages/station1.py', label='상세페이지', use_container_width=True)
+        # 칼슘 성분 metric
+        df_rh02_ca = data[data['ITEMCODE'] == '90319']
+        after_ca = df_rh02_ca[df_rh02_ca['STATIONCODE'] == station_code].iloc[-1]['VALUE']
+        before_ca = df_rh02_ca[df_rh02_ca['STATIONCODE'] == station_code].iloc[-2]['VALUE']
+        delta = round(after_ca -before_ca , 4)
+        container.metric('칼슘 측정수치', after_ca, f'{delta} ng/m\u00B3')
+        container.page_link('pages/station1.py', label='상세페이지', use_container_width=True)
+    except IndexError:
+        container.write(f'{station[station_code]}에 해당하는 데이터가 없습니다.')

@@ -41,4 +41,12 @@ def make_metric(data, container, station_code):
         container.metric('칼슘 측정수치', after_ca, f'{delta} ng/m\u00B3')
         container.page_link('pages/station1.py', label='상세페이지', use_container_width=True)
     except IndexError:
-        container.write(f'{station[station_code]}에 해당하는 데이터가 없습니다.')
+        # 납 성분 metric
+        df_rh02_pb = data[data['ITEMCODE'] == '90303']
+        container.metric('납 측정수치', '---')
+
+        # 칼슘 성분 metric
+        df_rh02_ca = data[data['ITEMCODE'] == '90319']
+        container.metric('칼슘 측정수치', '---')
+        container.write('해당하는 데이터가 없습니다.')
+        container.page_link('pages/station1.py', label='상세페이지', use_container_width=True, disabled=True)

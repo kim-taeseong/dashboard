@@ -1,3 +1,5 @@
+import streamlit as st
+
 station = {
     1: '수도권',
     2: '백령도',
@@ -23,6 +25,15 @@ def make_metric(data, container, station_code):
     '''
     if station_code not in station.keys():
         return
+    
+    # 값에 따라 다른 결과를 보여주기 위해 session state 사용
+    if 'station' not in st.session_state:
+        st.session_state['station'] = None
+
+    # 버튼의 on_click에 쓸 함수
+    def set_session(station):
+        st.session_state['station'] = station
+
     # container header
     container.header(station[station_code])
     try:
@@ -39,7 +50,9 @@ def make_metric(data, container, station_code):
         before_ca = df_rh02_ca[df_rh02_ca['STATIONCODE'] == station_code].iloc[-2]['VALUE']
         delta = round(after_ca -before_ca , 4)
         container.metric('칼슘 측정수치', after_ca, f'{delta} ng/m\u00B3')
-        container.page_link('pages/station1.py', label='상세페이지', use_container_width=True)
+        
+        if container.button('그래프', on_click=set_session(station_code), use_container_width=True, key=station_code):
+            st.switch_page('pages/station1.py')
     except IndexError:
         # 납 성분 metric
         df_rh02_pb = data[data['ITEMCODE'] == '90303']
@@ -49,4 +62,5 @@ def make_metric(data, container, station_code):
         df_rh02_ca = data[data['ITEMCODE'] == '90319']
         container.metric('칼슘 측정수치', '---')
         container.write('해당하는 데이터가 없습니다.')
-        container.page_link('pages/station1.py', label='상세페이지', use_container_width=True, disabled=True)
+        # container.page_link('pages/station1.py', label='상세페이지', use_container_width=True, disabled=True)
+        container.button('그래프', use_container_width=True, disabled=True, key=station_code)

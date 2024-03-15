@@ -1,5 +1,6 @@
 from api_data import get_api_data
 from datetime import datetime
+from data_frame import make_data_frame
 
 import streamlit as st
 import pandas as pd
@@ -7,13 +8,7 @@ import pandas as pd
 # api를 통해 데이터 get
 result = get_api_data()
 
-# 날짜 : 시간만 표시
-# itemcode : 90303, 90319 <- api 문서에 있는 코드, 그 이외의 코드는 확인 필요
-# timecode : rh02 -> 2시간 평균값
-df = pd.DataFrame(result)
-df['SDATE'] = df['SDATE'].apply(lambda x: x[8:10])
-df = df[df['ITEMCODE'].isin(['90303', '90319'])]
-df_rh02 = df[df['TIMECODE'] == 'RH02']
+df_rh02 = make_data_frame(result)
 
 # 수도권(1)에 대한 자료만 필터링
 df_rh02_station01 = df_rh02[df_rh02['STATIONCODE'] == 1]

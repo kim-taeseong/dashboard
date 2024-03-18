@@ -52,7 +52,7 @@ def make_metric(data, container, station_code):
         container.metric('칼슘 측정수치', after_ca, f'{delta} ng/m\u00B3')
         
         if container.button('그래프', on_click=set_session(station_code), use_container_width=True, key=station_code):
-            st.switch_page('pages/station1.py')
+            st.switch_page('pages/station.py')
     except IndexError:
         # 납 성분 metric
         df_rh02_pb = data[data['ITEMCODE'] == '90303']

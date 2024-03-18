@@ -42,14 +42,14 @@ def make_metric(data, container, station_code):
         after_pb = df_rh02_pb[df_rh02_pb['STATIONCODE'] == station_code].iloc[-1]['VALUE']
         before_pb = df_rh02_pb[df_rh02_pb['STATIONCODE'] == station_code].iloc[-2]['VALUE']
         delta = round(after_pb - before_pb, 4)
-        container.metric('납 측정수치', after_pb, f'{delta} ng/m\u00B3')
+        container.metric('납 측정수치', after_pb, f'{delta} ng/m\u00B3', 'inverse')
 
         # 칼슘 성분 metric
         df_rh02_ca = data[data['ITEMCODE'] == '90319']
         after_ca = df_rh02_ca[df_rh02_ca['STATIONCODE'] == station_code].iloc[-1]['VALUE']
         before_ca = df_rh02_ca[df_rh02_ca['STATIONCODE'] == station_code].iloc[-2]['VALUE']
         delta = round(after_ca -before_ca , 4)
-        container.metric('칼슘 측정수치', after_ca, f'{delta} ng/m\u00B3')
+        container.metric('칼슘 측정수치', after_ca, f'{delta} ng/m\u00B3', 'inverse')
         
         if container.button('그래프', on_click=set_session(station_code), use_container_width=True, key=station_code):
             st.switch_page('pages/station.py')

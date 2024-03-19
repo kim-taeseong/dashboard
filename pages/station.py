@@ -26,8 +26,18 @@ pivot_df_rh02_station.rename(columns=item_code, inplace=True)
 # x축 시간이 세로로 표시 됨 -> 문자열에서 숫자로 변경
 pivot_df_rh02_station.index = pivot_df_rh02_station.index.astype('uint64')
 
+options_list = ['전체']
+
+for i in item_code.values():
+    options_list.append(i)
+
 # 페이지에 출력
 st.title(f'오늘 {station_name} 대기환경')
-st.caption(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-st.line_chart(pivot_df_rh02_station)
+col1, col2 = st.columns([3, 1])
+col1.caption(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+selected_item = col2.selectbox(label='성분을 선택하세요', options=options_list)
+if selected_item == '전체':
+    st.line_chart(pivot_df_rh02_station)
+else:
+    st.line_chart(pivot_df_rh02_station[selected_item])
 st.page_link('main.py', label='메인화면', use_container_width=True)

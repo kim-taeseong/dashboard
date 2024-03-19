@@ -17,7 +17,6 @@ def make_data_frame(data):
 
     df = pd.DataFrame(data)
     df['SDATE'] = df['SDATE'].apply(lambda x: x[8:10])
-    df = df[df['ITEMCODE'].isin(['90303', '90319'])]
     df_rh02 = df[df['TIMECODE'] == 'RH02']
     
     return df_rh02

@@ -5,6 +5,17 @@ from metric import station
 
 import streamlit as st
 
+# item code 딕셔너리
+item_code = {
+    '90303': '납',
+    '90304': '니켈',
+    '90305': '망간',
+    '90314': '아연',
+    '90319': '칼슘',
+    '90318': '칼륨',
+    '90325': '황'
+}
+
 # station code와 그에 따른 이름 세팅
 station_code = st.session_state['station']
 station_name = station[station_code]
@@ -22,7 +33,7 @@ pivot_df_rh02_station = df_rh02_station.pivot(index='SDATE', columns='ITEMCODE',
 
 # 알아보기 쉬운 이름으로 인덱스, 컬럼 이름 변경
 pivot_df_rh02_station.rename_axis(index='시간', inplace=True)
-pivot_df_rh02_station.rename(columns={'90303': '납', '90319': '칼슘'}, inplace=True)
+pivot_df_rh02_station.rename(columns=item_code, inplace=True)
 
 # x축 시간이 세로로 표시 됨 -> 문자열에서 숫자로 변경
 pivot_df_rh02_station.index = pivot_df_rh02_station.index.astype('uint64')
@@ -30,5 +41,5 @@ pivot_df_rh02_station.index = pivot_df_rh02_station.index.astype('uint64')
 # 페이지에 출력
 st.title(f'오늘 {station_name} 대기환경')
 st.caption(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-st.line_chart(pivot_df_rh02_station, color=['#FF0000', '#FFA500'])
+st.line_chart(pivot_df_rh02_station)
 st.page_link('main.py', label='메인화면', use_container_width=True)

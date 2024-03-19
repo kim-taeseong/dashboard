@@ -2,6 +2,32 @@ import requests, json, os
 
 from dotenv import load_dotenv
 from datetime import date
+
+station = {
+    1: '수도권',
+    2: '백령도',
+    3: '호남권',
+    4: '중부권',
+    5: '제주도',
+    6: '영남권',
+    7: '경기권',
+    8: '충청권',
+    9: '전북권',
+    10: '강원권',
+    11: '충북권'
+}
+
+# item code 딕셔너리
+item_code = {
+    '90303': '납',
+    '90304': '니켈',
+    '90305': '망간',
+    '90314': '아연',
+    '90319': '칼슘',
+    '90318': '칼륨',
+    '90325': '황'
+}
+
 load_dotenv()
 
 def get_api_data():

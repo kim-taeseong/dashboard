@@ -1,20 +1,8 @@
-from api_data import get_api_data
+from api_data import get_api_data, item_code, station
 from datetime import datetime
 from data_frame import make_data_frame
-from metric import station
 
 import streamlit as st
-
-# item code 딕셔너리
-item_code = {
-    '90303': '납',
-    '90304': '니켈',
-    '90305': '망간',
-    '90314': '아연',
-    '90319': '칼슘',
-    '90318': '칼륨',
-    '90325': '황'
-}
 
 # station code와 그에 따른 이름 세팅
 station_code = st.session_state['station']

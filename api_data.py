@@ -30,7 +30,7 @@ item_code = {
 
 load_dotenv()
 
-def get_api_data():
+def get_api_data(input_date=date.today().strftime('%Y%m%d')):
     api_key = os.getenv('API_KEY')
     
     url = 'http://apis.data.go.kr/1480523/MetalMeasuringResultService/MetalService'
@@ -39,13 +39,13 @@ def get_api_data():
 
     result = []
 
-    today = date.today().strftime('%Y%m%d')
+    # today = date.today().strftime('%Y%m%d')
 
     while True:
         params = {
             'ServiceKey': api_key,
             'resultType': 'JSON',
-            'date': today,
+            'date': input_date,
             'numOfRows': 1000,
             'pageNo': pageNo,
             # 'timecode': 'RH24'

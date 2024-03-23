@@ -14,7 +14,6 @@ def make_data_frame(data):
     return
     DataFrame
     '''
-
     df = pd.DataFrame(data)
     df['SDATE'] = df['SDATE'].apply(lambda x: x[8:10])
     df_rh02 = df[df['TIMECODE'] == 'RH02']

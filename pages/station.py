@@ -8,8 +8,14 @@ import streamlit as st
 station_code = st.session_state['station']
 station_name = station[station_code]
 
+# 페이지에 출력
+st.title(f'오늘 {station_name} 대기환경')
+col1, col2, col3 = st.columns([2, 1, 1])
+col1.caption(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+selected_date = col2.date_input('날짜를 선택하세요', datetime.today())
+
 # api를 통해 데이터 get
-result = get_api_data()
+result = get_api_data(selected_date.strftime('%Y%m%d'))
 
 df_rh02 = make_data_frame(result)
 
@@ -31,11 +37,9 @@ options_list = ['전체']
 for i in item_code.values():
     options_list.append(i)
 
-# 페이지에 출력
-st.title(f'오늘 {station_name} 대기환경')
-col1, col2 = st.columns([3, 1])
-col1.caption(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-selected_item = col2.selectbox(label='성분을 선택하세요', options=options_list)
+
+# 나머지 페이지 출력
+selected_item = col3.selectbox(label='성분을 선택하세요', options=options_list)
 if selected_item == '전체':
     st.line_chart(pivot_df_rh02_station)
 else:
